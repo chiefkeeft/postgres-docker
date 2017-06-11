@@ -11,6 +11,7 @@ RUN echo "ru_RU.UTF-8 UTF-8" > /etc/locale.gen && \
 ENV LC_ALL ru_RU.UTF-8 
 COPY ./build.sh /tmp/
 COPY ./start.sh /tmp/
+COPY ./backup-manager.conf /tmp/
 COPY ./pgbouncer /tmp/
 COPY ./pgbouncer.ini /tmp/
 # explicitly set user/group IDs

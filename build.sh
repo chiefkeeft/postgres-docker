@@ -18,6 +18,7 @@ sudo make install
 sudo mkdir /etc/pgbouncer/
 sudo chown -R postgres:postgres /etc/pgbouncer/
 su postgres
+cp /tmp/backup-manager.conf /etc/
 cp /tmp/pgbouncer.ini /etc/pgbouncer/
 cp /tmp/pgbouncer /etc/init.d/pgbouncer
 cp /usr/local/share/doc/pgbouncer/userlist.txt /etc/pgbouncer/
