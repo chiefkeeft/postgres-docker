@@ -26,4 +26,15 @@ sudo chown -R postgres:postgres /var/log/postgresql/
 sudo mkdir /var/run/pgbouncer/
 sudo chown -R postgres:postgres /var/run/pgbouncer/
 sudo chmod +x /etc/init.d/pgbouncer
+sudo mkdir /var/log/postgresql
+sudo chown -R postgres:postgres /var/log/postgresql/
+sudo mkdir /var/run/pgbouncer/
+chown -R postgres:postgres /var/run/pgbouncer/
+apt-get -y install locales
+#sudo locale-gen ru_RU.UTF-8
+#sudo locale-gen ru_RU
+#LC_ALL = ru_RU.UTF-8
+#LANG = "ru_RU.utf8"
+#sudo update-locale LC_ALL="ru_RU.UTF-8" LC_CTYPE="ru_RU.UTF-8"
+
 

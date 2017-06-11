@@ -1,5 +1,13 @@
 # vim:set ft=dockerfile:
 FROM debian:jessie
+RUN apt-get clean && apt-get update
+RUN apt-get install -y locales-all 
+RUN apt-get install -y locales       
+RUN echo "ru_RU.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
+    dpkg-reconfigure locales && \
+    /usr/sbin/update-locale LANG=ru_RU.UTF-8
+ENV LC_ALL ru_RU.UTF-8 
 COPY ./build.sh /tmp/
 COPY ./start.sh /tmp/
 COPY ./pgbouncer /tmp/
@@ -14,7 +22,7 @@ RUN set -x \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
 	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
 	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
@@ -28,7 +36,9 @@ ENV LANG en_US.utf8
 
 RUN mkdir /docker-entrypoint-initdb.d
 
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
+
 
 ENV PG_MAJOR 9.5
 ENV PG_VERSION 9.5.7-1.pgdg80+1
@@ -63,6 +73,6 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE 5432
 
 RUN /bin/sh /tmp/build.sh
-CMD ["postgres"]
 CMD ["/bin/sh", "/tmp/start.sh"]
+CMD ["postgres"]
 

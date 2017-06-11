@@ -21,7 +21,7 @@ if [ "$1" = 'postgres' ]; then
 		# messes it up
 		if [ "$POSTGRES_PASSWORD" ]; then
 			pass="PASSWORD '$POSTGRES_PASSWORD'"
-			authMethod=peer
+			authMethod=md5
 		else
 			# The - option suppresses leading tabs but *not* spaces. :)
 			cat >&2 <<-'EOWARN'
@@ -39,7 +39,7 @@ if [ "$1" = 'postgres' ]; then
 			EOWARN
 
 			pass=
-			authMethod=peer
+			authMethod=trust
 		fi
 
 		{ echo; echo "host all all 0.0.0.0/0 $authMethod"; } >> "$PGDATA/pg_hba.conf"
