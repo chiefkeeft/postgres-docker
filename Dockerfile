@@ -1,5 +1,6 @@
 # vim:set ft=dockerfile:
 FROM debian:jessie
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get clean && apt-get update
 RUN apt-get install -y locales-all 
 RUN apt-get install -y locales       
@@ -65,6 +66,9 @@ RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
 VOLUME /var/lib/postgresql/data
+RUN apt-get update && apt-get install -y --no-install-recommends cron backup-manager && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+RUN echo "0 4 * * * /usr/sbin/backup-manager" > cron && crontab cron && rm cron
+RUN touch /var/log/cron.log
 
 COPY docker-entrypoint.sh /
 
