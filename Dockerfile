@@ -68,7 +68,7 @@ ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
 VOLUME /var/lib/postgresql/data
 RUN apt-get update && apt-get install -y --no-install-recommends cron backup-manager && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
-RUN echo "0 4 * * * /usr/sbin/backup-manager" > cron && crontab cron && rm cron
+RUN echo "0 4 * * * root /usr/sbin/backup-manager" > /etc/crontab
 RUN touch /var/log/cron.log
 
 COPY docker-entrypoint.sh /
