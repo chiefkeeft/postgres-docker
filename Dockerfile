@@ -10,7 +10,7 @@ RUN echo "ru_RU.UTF-8 UTF-8" > /etc/locale.gen && \
     /usr/sbin/update-locale LANG=ru_RU.UTF-8
 ENV LC_ALL ru_RU.UTF-8 
 COPY ./build.sh /tmp/
-COPY ./start.sh /tmp/
+COPY ./start.sh /
 COPY ./backup-manager.conf /tmp/
 COPY ./pgbouncer /tmp/
 COPY ./pgbouncer.ini /tmp/
